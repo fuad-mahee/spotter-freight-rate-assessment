@@ -1,0 +1,5 @@
+-r requirements.txt
+catboost==1.2.10
+scikit-learn==1.9.1
+scipy==1.18.1
+reportlab>=4,<5

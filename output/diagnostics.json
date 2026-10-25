@@ -1,0 +1,118 @@
+{
+  "scope": "Post-evaluation descriptive analysis; no model selection, calibration or prediction changes.",
+  "residuals": {
+    "overall": {
+      "n": 9523,
+      "MAE": 121.83052754028617,
+      "median_absolute_error": 42.48838784272789,
+      "p95_absolute_error": 238.011931735623,
+      "mean_signed_error": -90.92547891231503,
+      "median_signed_error": -37.83477956877596,
+      "underpredicted_pct": 80.60485141237005,
+      "worst_1pct_rows": 96,
+      "worst_1pct_squared_error_pct": 96.52041438677998
+    },
+    "month": {
+      "2025-09": {
+        "n": 4670,
+        "MAE": 115.6333479086769,
+        "median_absolute_error": 42.10379265677011,
+        "p95_absolute_error": 235.84777743571274,
+        "mean_signed_error": -88.01822228492965,
+        "median_signed_error": -36.74413933605979,
+        "underpredicted_pct": 80.98501070663812,
+        "worst_1pct_rows": 47,
+        "worst_1pct_squared_error_pct": 96.8144169446122
+      },
+      "2025-10": {
+        "n": 4853,
+        "MAE": 127.79401999435899,
+        "median_absolute_error": 42.78733541108511,
+        "p95_absolute_error": 238.96753012039463,
+        "mean_signed_error": -93.72310686407468,
+        "median_signed_error": -38.760753985793144,
+        "underpredicted_pct": 80.23902740572841,
+        "worst_1pct_rows": 49,
+        "worst_1pct_squared_error_pct": 96.14674326302179
+      }
+    },
+    "distance_band": {
+      "<500 mi": {
+        "n": 2089,
+        "MAE": 46.565951543460805,
+        "median_absolute_error": 18.33336143856468,
+        "p95_absolute_error": 62.85437548809178,
+        "mean_signed_error": -26.797146932716192,
+        "median_signed_error": -10.99827970066849,
+        "underpredicted_pct": 66.96984202967927,
+        "worst_1pct_rows": 21,
+        "worst_1pct_squared_error_pct": 95.12006257221728
+      },
+      "500-999 mi": {
+        "n": 2973,
+        "MAE": 77.5240807284873,
+        "median_absolute_error": 34.73366121697063,
+        "p95_absolute_error": 119.56870918994485,
+        "mean_signed_error": -51.88139315866311,
+        "median_signed_error": -31.996186593059974,
+        "underpredicted_pct": 81.46653212243525,
+        "worst_1pct_rows": 30,
+        "worst_1pct_squared_error_pct": 94.60549603143589
+      },
+      "1000-1999 mi": {
+        "n": 2927,
+        "MAE": 164.17037569212948,
+        "median_absolute_error": 69.59005660886214,
+        "p95_absolute_error": 225.8612317165469,
+        "mean_signed_error": -130.16551307092598,
+        "median_signed_error": -66.29955643129051,
+        "underpredicted_pct": 85.1725316023232,
+        "worst_1pct_rows": 30,
+        "worst_1pct_squared_error_pct": 96.28391004078466
+      },
+      ">=2000 mi": {
+        "n": 1534,
+        "MAE": 229.406818341069,
+        "median_absolute_error": 123.42741360483524,
+        "p95_absolute_error": 350.9049258325526,
+        "mean_signed_error": -179.05231885282018,
+        "median_signed_error": -119.64893131986969,
+        "underpredicted_pct": 88.78748370273793,
+        "worst_1pct_rows": 16,
+        "worst_1pct_squared_error_pct": 93.79432500410309
+      }
+    }
+  },
+  "geography": {
+    "holdout_vs_jan_aug": {
+      "rows": 9523,
+      "unseen_city_rows": 0,
+      "unseen_city_pct": 0.0,
+      "unseen_cities": []
+    },
+    "final_vs_jan_oct": {
+      "rows": 12000,
+      "unseen_city_rows": 1447,
+      "unseen_city_pct": 12.058333333333334,
+      "unseen_cities": [
+        "Allentown",
+        "Charlotte",
+        "Chicago",
+        "Jackson",
+        "Knoxville",
+        "Laredo",
+        "Norfolk",
+        "San Diego"
+      ]
+    }
+  },
+  "baseline_mae_reduction_pct": 50.47975399718925,
+  "core_holdout_mae_reduction_pct": 12.71267716579787,
+  "artifact_sha256": {
+    "validation_predictions.csv": "a10613668f630af7c89a09dc5372f05f3e03a65f42155120a3a52b4725b11f91",
+    "december_predictions.csv": "1b299ede21438cd9a8b37ce7d467be3e03f6dc45d7bd25e458c51d3b77ce7245",
+    "holdout_predictions.csv": "4a0dfdb5850a303c4cdd4fadb48f68dbdacd86f73f3cd9c6474d918a2286eec7",
+    "full_model.cbm": "47234d2f7ec85f36551290e4dcaef0607e7ae481f9a7da5a4f7f0320edde9dbd",
+    "core_model.cbm": "ec8a516e49bd146c76471ff9aed9e6714cdd69549962567c1e123c6bad90d027"
+  }
+}

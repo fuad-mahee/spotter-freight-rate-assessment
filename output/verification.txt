@@ -1,0 +1,18 @@
+COMMAND: score.py --predictions output/validation_predictions.csv --december-predictions output/december_predictions.csv --output-dir output
+Validated 12,000 final predictions.
+Validated 31 fixed December predictions.
+Created chart: output\candidate_december.png
+Final validation metrics are calculated by Spotter after submission.
+
+COMMAND: -m unittest -v test_solution.py
+test_core_requires_only_supplied_chart_inputs (test_solution.SolutionTests.test_core_requires_only_supplied_chart_inputs) ... ok
+test_features_do_not_use_labels_or_ids (test_solution.SolutionTests.test_features_do_not_use_labels_or_ids) ... ok
+test_invalid_weight_becomes_missing (test_solution.SolutionTests.test_invalid_weight_becomes_missing) ... ok
+test_no_quote_model_does_not_require_quote_column (test_solution.SolutionTests.test_no_quote_model_does_not_require_quote_column) ... ok
+test_output_contract_and_template_order (test_solution.SolutionTests.test_output_contract_and_template_order) ... ok
+test_saved_models_reproduce_outputs (test_solution.SolutionTests.test_saved_models_reproduce_outputs) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.157s
+
+OK

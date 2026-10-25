@@ -1,0 +1,290 @@
+{
+  "audit": {
+    "train": {
+      "rows": 48000,
+      "columns": [
+        "load_id",
+        "pickup",
+        "delivery",
+        "pickup_lat",
+        "pickup_lon",
+        "delivery_lat",
+        "delivery_lon",
+        "distance",
+        "equipment",
+        "weight",
+        "date",
+        "market_index",
+        "quote_signal",
+        "posted_rate"
+      ],
+      "date_min": "2025-01-01",
+      "date_max": "2025-10-31",
+      "missing": {
+        "load_id": 0,
+        "pickup": 0,
+        "delivery": 0,
+        "pickup_lat": 0,
+        "pickup_lon": 0,
+        "delivery_lat": 0,
+        "delivery_lon": 0,
+        "distance": 0,
+        "equipment": 0,
+        "weight": 300,
+        "date": 0,
+        "market_index": 374,
+        "quote_signal": 0,
+        "posted_rate": 0
+      },
+      "invalid_weight": 292,
+      "duplicate_ids": 0,
+      "duplicate_features": 0
+    },
+    "final": {
+      "rows": 12000,
+      "columns": [
+        "load_id",
+        "pickup",
+        "delivery",
+        "pickup_lat",
+        "pickup_lon",
+        "delivery_lat",
+        "delivery_lon",
+        "distance",
+        "equipment",
+        "weight",
+        "date",
+        "market_index",
+        "quote_signal"
+      ],
+      "date_min": "2025-11-01",
+      "date_max": "2025-12-31",
+      "missing": {
+        "load_id": 0,
+        "pickup": 0,
+        "delivery": 0,
+        "pickup_lat": 0,
+        "pickup_lon": 0,
+        "delivery_lat": 0,
+        "delivery_lon": 0,
+        "distance": 0,
+        "equipment": 0,
+        "weight": 165,
+        "date": 0,
+        "market_index": 249,
+        "quote_signal": 0
+      },
+      "invalid_weight": 145,
+      "duplicate_ids": 0,
+      "duplicate_features": 0
+    },
+    "new_final_cities": [
+      "Allentown",
+      "Charlotte",
+      "Chicago",
+      "Jackson",
+      "Knoxville",
+      "Laredo",
+      "Norfolk",
+      "San Diego"
+    ],
+    "new_city_final_rows": 1447
+  },
+  "split": {
+    "train_jan_jun": 28806,
+    "selection_jul_aug": 9671,
+    "refit_jan_aug": 38477,
+    "holdout_sep_oct": 9523
+  },
+  "selection": {
+    "quote_baseline": {
+      "n": 9671,
+      "MAE": 367.2926189754937,
+      "RMSE": 753.957462450645,
+      "WAPE_pct": 15.449392455490774,
+      "R2": 0.7441629386403681
+    },
+    "median_baseline": {
+      "n": 9671,
+      "MAE": 1128.1113183745217,
+      "RMSE": 1532.1882824154654,
+      "WAPE_pct": 47.45163281435815,
+      "R2": -0.05655970405769595
+    },
+    "full_direct_mae": {
+      "n": 9671,
+      "MAE": 156.65871903605847,
+      "RMSE": 631.5453221347517,
+      "WAPE_pct": 6.589519927499591,
+      "R2": 0.8204940638049762
+    },
+    "full_residual_mae": {
+      "n": 9671,
+      "MAE": 242.7294953200143,
+      "RMSE": 660.5355378932717,
+      "WAPE_pct": 10.209906325322368,
+      "R2": 0.8036358751118069
+    },
+    "full_direct_rmse": {
+      "n": 9671,
+      "MAE": 192.99663653772555,
+      "RMSE": 649.1180014505222,
+      "WAPE_pct": 8.117998093122514,
+      "R2": 0.810365619937389
+    },
+    "no_quote_ablation": {
+      "n": 9671,
+      "MAE": 140.48140434183804,
+      "RMSE": 623.9853463348124,
+      "WAPE_pct": 5.909055168136526,
+      "R2": 0.8247659286183797
+    },
+    "core_direct": {
+      "n": 9671,
+      "MAE": 163.00650816870342,
+      "RMSE": 628.7486789760478,
+      "WAPE_pct": 6.856526342734618,
+      "R2": 0.8220803395890504
+    },
+    "core_per_mile": {
+      "n": 9671,
+      "MAE": 159.46525896079083,
+      "RMSE": 627.6174322659728,
+      "WAPE_pct": 6.707571133810619,
+      "R2": 0.8227199909265992
+    }
+  },
+  "holdout": {
+    "quote_baseline": {
+      "n": 9523,
+      "MAE": 246.0216525042528,
+      "RMSE": 711.799751342299,
+      "WAPE_pct": 10.283250856608893,
+      "R2": 0.7824411335299419
+    },
+    "median_baseline": {
+      "n": 9523,
+      "MAE": 1148.923725716686,
+      "RMSE": 1569.4241791607556,
+      "WAPE_pct": 48.02289053175984,
+      "R2": -0.05764958163404699
+    },
+    "no_quote_ablation": {
+      "n": 9523,
+      "MAE": 121.8305275402862,
+      "RMSE": 638.8537870634638,
+      "WAPE_pct": 5.092291121278867,
+      "R2": 0.8247475610517148
+    },
+    "full_by_month": {
+      "2025-09": {
+        "n": 4670,
+        "MAE": 115.6333479086769,
+        "RMSE": 619.7763239396098,
+        "WAPE_pct": 4.8052940769512285,
+        "R2": 0.834466009414624
+      },
+      "2025-10": {
+        "n": 4853,
+        "MAE": 127.79401999435899,
+        "RMSE": 656.6888083881516,
+        "WAPE_pct": 5.371637677483173,
+        "R2": 0.8154320785679372
+      }
+    },
+    "full_by_equipment": {
+      "Dry Van": {
+        "n": 5360,
+        "MAE": 116.46519461255747,
+        "RMSE": 659.7347061063543,
+        "WAPE_pct": 5.105511427159369,
+        "R2": 0.7992666772707698
+      },
+      "Flatbed": {
+        "n": 1770,
+        "MAE": 125.83648873573814,
+        "RMSE": 515.1273572556795,
+        "WAPE_pct": 5.1573491100300375,
+        "R2": 0.8845682441877543
+      },
+      "Reefer": {
+        "n": 2393,
+        "MAE": 130.88511725055608,
+        "RMSE": 673.0567154556196,
+        "WAPE_pct": 5.021331934810614,
+        "R2": 0.8281051154718664
+      }
+    },
+    "core_per_mile": {
+      "n": 9523,
+      "MAE": 106.34260588470114,
+      "RMSE": 632.9501782106904,
+      "WAPE_pct": 4.444924590688096,
+      "R2": 0.8279715895609475
+    },
+    "core_by_month": {
+      "2025-09": {
+        "n": 4670,
+        "MAE": 101.84822183283494,
+        "RMSE": 615.1963637896075,
+        "WAPE_pct": 4.232435244440519,
+        "R2": 0.8369034625459446
+      },
+      "2025-10": {
+        "n": 4853,
+        "MAE": 110.66751285404277,
+        "RMSE": 649.5765473778758,
+        "WAPE_pct": 4.6517496025742835,
+        "R2": 0.8194083505827663
+      }
+    },
+    "core_by_equipment": {
+      "Dry Van": {
+        "n": 5360,
+        "MAE": 100.6861288576958,
+        "RMSE": 654.1674353664832,
+        "WAPE_pct": 4.413800905493705,
+        "R2": 0.802640219674075
+      },
+      "Flatbed": {
+        "n": 1770,
+        "MAE": 105.99271817148515,
+        "RMSE": 507.63903008804004,
+        "WAPE_pct": 4.3440615375031895,
+        "R2": 0.887899878523427
+      },
+      "Reefer": {
+        "n": 2393,
+        "MAE": 119.27115503519877,
+        "RMSE": 667.2146049765341,
+        "WAPE_pct": 4.575768981690291,
+        "R2": 0.8310762486499812
+      }
+    }
+  },
+  "seed": 42,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "catboost": "1.2.10",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "selected": {
+    "full": "no_quote_ablation",
+    "core": "core_per_mile"
+  },
+  "model_specs": {
+    "full": {
+      "mode": "no_quote",
+      "kind": "direct",
+      "loss": "MAE"
+    },
+    "core": {
+      "mode": "core",
+      "kind": "per_mile",
+      "loss": "MAE"
+    }
+  }
+}

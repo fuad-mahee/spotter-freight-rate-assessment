@@ -1,0 +1,7 @@
+.venv/
+.deps/
+__pycache__/
+tmp/
+catboost_info/
+*.zip
+private-notes/
