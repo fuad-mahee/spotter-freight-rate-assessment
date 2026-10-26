@@ -48,7 +48,7 @@
         "worst_1pct_rows": 21,
         "worst_1pct_squared_error_pct": 95.12006257221728
       },
-      "500-999 mi": {
+      "500-<1,000 mi": {
         "n": 2973,
         "MAE": 77.5240807284873,
         "median_absolute_error": 34.73366121697063,
@@ -59,7 +59,7 @@
         "worst_1pct_rows": 30,
         "worst_1pct_squared_error_pct": 94.60549603143589
       },
-      "1000-1999 mi": {
+      "1,000-<2,000 mi": {
         "n": 2927,
         "MAE": 164.17037569212948,
         "median_absolute_error": 69.59005660886214,
@@ -70,7 +70,7 @@
         "worst_1pct_rows": 30,
         "worst_1pct_squared_error_pct": 96.28391004078466
       },
-      ">=2000 mi": {
+      ">=2,000 mi": {
         "n": 1534,
         "MAE": 229.406818341069,
         "median_absolute_error": 123.42741360483524,

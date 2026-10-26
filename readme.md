@@ -49,7 +49,7 @@ Signed error means prediction minus actual. These are post-evaluation diagnostic
 | Loads underpredicted | 80.6% |
 | Squared error from worst 96 rows (about 1%) | 96.5% |
 
-Rare extreme misses dominate RMSE, while negative median error and widespread underprediction also show bias among ordinary loads. September/October mean signed errors are -$88.02/-$93.72. Across distance bands below 500, 500-999, 1,000-1,999 and at least 2,000 miles, mean signed errors are -$26.80, -$51.88, -$130.17 and -$179.05; underprediction rates are 67.0%, 81.5%, 85.2% and 88.8%. See the [full month/distance table](output/residual_slices.csv).
+Rare extreme misses dominate RMSE, while negative median error and widespread underprediction also show bias among ordinary loads. September/October mean signed errors are -$88.02/-$93.72. Across distance bands below 500, 500-<1,000, 1,000-<2,000 and at least 2,000 miles, mean signed errors are -$26.80, -$51.88, -$130.17 and -$179.05; underprediction rates are 67.0%, 81.5%, 85.2% and 88.8%. These intervals include their lower bounds and exclude their upper bounds, accounting for fractional distances. See the [full month/distance table](output/residual_slices.csv).
 
 If used for quotes or budgets, these estimates could understate transport costs, especially on longer trips. These diagnostics do not establish the cause. We did **not** add $90.93 or otherwise adjust predictions using this holdout. Any correction must be estimated and validated on development-only chronological folds and assessed on a separate future evaluation period.
 

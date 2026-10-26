@@ -48,7 +48,7 @@ def main():
     # Fixed descriptive bins, not boundaries optimized against residuals.
     joined['distance_band'] = pd.cut(joined.distance, [0, 500, 1000, 2000, np.inf],
                                      right=False,
-                                     labels=['<500 mi', '500-999 mi', '1000-1999 mi', '>=2000 mi'])
+                                     labels=['<500 mi', '500-<1,000 mi', '1,000-<2,000 mi', '>=2,000 mi'])
     residuals = {'overall': summarize(joined)}
     rows = []
     for dimension in ['month', 'distance_band']:
@@ -72,7 +72,7 @@ def main():
                                          'holdout_predictions.csv', 'full_model.cbm', 'core_model.cbm']},
     }
     (out / 'diagnostics.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
-    pd.DataFrame(rows).to_csv(out / 'residual_slices.csv', index=False)
+    pd.DataFrame(rows).to_csv(out / 'residual_slices.csv', index=False, lineterminator='\n')
     print(json.dumps({k: v for k, v in result.items() if k != 'artifact_sha256'}, indent=2))
 
 

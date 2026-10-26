@@ -147,8 +147,8 @@ def main():
            ['MAE', f"${res['MAE']:.2f}"],
            ['Median absolute error', f"${res['median_absolute_error']:.2f}"],
            ['95th-percentile absolute error', f"${res['p95_absolute_error']:.2f}"],
-           ['Mean signed error', f"${res['mean_signed_error']:.2f}"],
-           ['Median signed error', f"${res['median_signed_error']:.2f}"],
+           ['Mean signed error', f"{'-' if res['mean_signed_error'] < 0 else ''}${abs(res['mean_signed_error']):.2f}"],
+           ['Median signed error', f"{'-' if res['median_signed_error'] < 0 else ''}${abs(res['median_signed_error']):.2f}"],
            ['Loads underpredicted', f"{res['underpredicted_pct']:.1f}%"],
            [f"Squared error from worst {res['worst_1pct_rows']} rows (about 1%)",
             f"{res['worst_1pct_squared_error_pct']:.1f}%"]], [370, 130])
