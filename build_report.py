@@ -1,5 +1,6 @@
 """Build the submission PDF from computed results, without hand-entered metrics."""
 import json
+import csv
 from io import BytesIO
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -17,6 +18,7 @@ def main():
     out = Path('output')
     r = json.loads((out / 'metrics.json').read_text())
     d = json.loads((out / 'diagnostics.json').read_text())
+    robustness = json.loads((out / 'robustness/summary.json').read_text())
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='BodyCustom', fontName='Helvetica', fontSize=10,
                               leading=14, spaceAfter=9, textColor=colors.black))
@@ -56,7 +58,7 @@ def main():
     p(f"CatBoost predicts total rates for 12,000 November-December 2025 loads. The selected "
       f"main model achieves <b>${fm['MAE']:.2f} September-October holdout MAE</b>, a "
       f"<b>{d['baseline_mae_reduction_pct']:.1f}% reduction</b> versus the distance x quote baseline. "
-      'Systematic underprediction and unmeasured unseen-city accuracy are the main limitations. '
+      'Systematic underprediction and uncertain future-city accuracy are the main limitations. '
       'The hidden final score is unknown.')
     p('CatBoost suits mixed numerical and categorical tabular data and learns nonlinear effects '
       'and interactions among distance, equipment, location and market inputs. It avoids manually '
@@ -139,7 +141,8 @@ def main():
       'have limited extrapolation beyond observed time trends; cyclical features do not solve missing seasonal coverage. '
       'The core model lacks contemporaneous market information. New-city generalization and future market '
       'shifts remain risks. No confidence interval or minimum final score is claimed. More history, verified '
-      'feature provenance, city-held-out evaluation and interval calibration would be useful next steps.')
+      'feature provenance and interval calibration would be useful next steps. Additional development-only '
+      'chronological and city-held-out experiments are reported in Section 8.')
 
     story.append(PageBreak())
     p('4. Residuals: tail risk and underprediction', 'Heading1')
@@ -192,17 +195,16 @@ def main():
       f"MAE, it scored ${r['selection'][core]['MAE']:.2f} versus "
       f"${r['selection']['core_direct']['MAE']:.2f} for the core total-rate candidate. "
       'Weighting each per-mile training loss by distance would align the objective with total-dollar '
-      'MAE, up to a constant. That experiment has not been run.')
-    p('Unseen-city coverage and future tests', 'Heading2')
+      'MAE, up to a constant. Section 8 reports this additional experiment.')
+    p('Unseen-city coverage and stress testing', 'Heading2')
     p('The final set has 1,447 loads involving unseen cities (12.1%); the chronological holdout '
-      'has none. A geographic stress test would choose held-out cities before inspecting errors, '
-      'remove every load touching them from an earlier training window, and evaluate later loads '
-      'involving those cities separately from seen-city loads. This is proposed future work, not '
-      'a completed validation result.')
-    p('Further development would compare feature sets and target formulations on earlier rolling '
-      'chronological windows, including distance-weighted per-mile loss, and assess bias corrections '
-      'using only development folds. The residual analysis is descriptive; the selected models '
-      'and predictions were not changed after this analysis.')
+      'has none. Section 8 now tests deliberately withheld cities in July-August, excluding both '
+      'pickup and delivery occurrences from fitting. This measures a simulated geographic shift, '
+      'not accuracy for the eight actual unseen final cities.')
+    p('Additional development compares feature sets and target formulations on earlier rolling '
+      'chronological windows. These experiments were designed after the original holdout was '
+      'inspected and are not a new untouched evaluation. Bias correction remains future work; '
+      'the submitted models and predictions remain fixed.')
 
     story.append(PageBreak())
     p('6. Fixed December prediction chart', 'Heading1')
@@ -231,6 +233,45 @@ def main():
     p('Repository: <link href="https://github.com/fuad-mahee/spotter-freight-rate-assessment" '
       'color="#000000">github.com/fuad-mahee/spotter-freight-rate-assessment</link>. '
       'The root README links the code, dependencies, saved models, predictions and run instructions.')
+
+    story.append(PageBreak())
+    p('8. Additional development experiments', 'Heading1')
+    p('These experiments were added after the original September-October results were known. '
+      'They use labels only through August and do not reselect the submission models or calibrate '
+      'predictions. Their role is to test sensitivity and guide future work; no new unbiased test '
+      'score is claimed. The experiment protocol and row-level predictions are saved.')
+    p('Controlled feature and loss comparison', 'Heading2')
+    p('Cross two feature sets (no-quote main inputs; six core inputs) with three objectives '
+      '(total-dollar MAE; unweighted rate-per-mile MAE; distance-weighted rate-per-mile MAE). '
+      'Tree settings and cleaning remain fixed. Fit all prior months, then evaluate Mar-Apr, '
+      'May-Jun and Jul-Aug. These two-month horizons match the final task. Rank by equal-weight '
+      'mean fold dollar MAE; retain all extreme targets. Windows differ in training size and regime.')
+    short = {'no_quote': 'Main inputs', 'core': 'Core inputs'}
+    rows = [['Features / objective', 'Mean MAE ($)', 'Worst MAE ($)']]
+    for row in robustness['ranking']:
+        name = row['candidate']
+        mode = 'no_quote' if name.startswith('no_quote_') else 'core'
+        objective = name[len(mode) + 1:].replace('weighted_per_mile', 'weighted RPM').replace('per_mile', 'RPM').replace('direct', 'dollars')
+        rows.append([short[mode] + ' / ' + objective, f"{row['mean_MAE']:.2f}", f"{row['worst_MAE']:.2f}"])
+    table(rows, [280, 110, 110])
+    with (out / 'robustness/temporal_metrics.csv').open() as handle:
+        bias = {row['fold']: float(row['mean_signed_error']) for row in csv.DictReader(handle)
+                if row['candidate'] == 'no_quote_direct'}
+    bias_text = ', '.join(f"{fold}: {'-' if value < 0 else '+'}${abs(value):.2f}" for fold, value in bias.items())
+    p(f'Bias also changes sign. Original main specification mean errors: {bias_text}. '
+      'A single additive correction '
+      'learned in one period may therefore fail in another. No bias offset is applied.')
+    p('Geographic stress test', 'Heading2')
+    p('Choose six cities from January-June city names using each of three fixed seeds (17, 29, 43), '
+      'without using targets or errors. Remove every training load touching those cities; evaluate '
+      'July-August loads touching them. Compare the original main specification with the temporal '
+      'development leader. Repetitions can overlap and are not independent samples.')
+    table([['Candidate', 'Mean stress-test MAE ($)']] +
+          [[name, f'{value:.2f}'] for name, value in robustness['geographic_mean_MAE'].items()], [360, 140])
+    p('Interpretation: this is evidence about robustness, not proof of November-December accuracy. '
+      'The original submission choice is preserved because no new untouched future labels are '
+      'available. All per-fold results, selected cities, residual summaries and row-level predictions '
+      'are available under output/robustness. Run robustness.py before rebuilding this report.')
 
     def footer(canvas, doc):
         canvas.setStrokeColor(colors.black)

@@ -65,15 +65,16 @@ def fit(data, mode, kind, loss='MAE'):
                              loss_function=loss, random_seed=SEED, thread_count=4,
                              verbose=False, allow_writing_files=False)
     y = data.posted_rate.to_numpy() - offset(data, kind)
-    if kind == 'per_mile':
+    if kind in {'per_mile', 'weighted_per_mile'}:
         y = y / data.distance.to_numpy()
-    model.fit(features(data, mode), y, cat_features=CAT)
+    weights = data.distance.to_numpy() if kind == 'weighted_per_mile' else None
+    model.fit(features(data, mode), y, cat_features=CAT, sample_weight=weights)
     return model
 
 
 def predict(model, data, mode, kind):
     p = model.predict(features(data, mode))
-    if kind == 'per_mile':
+    if kind in {'per_mile', 'weighted_per_mile'}:
         p *= data.distance.to_numpy()
     return np.maximum(p + offset(data, kind), 0.01)
 

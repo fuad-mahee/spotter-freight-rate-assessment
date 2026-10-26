@@ -1,0 +1,50 @@
+{
+  "status": "Additional development analysis after the original holdout was inspected",
+  "folds": [
+    [
+      "Mar-Apr",
+      "2025-03-01",
+      "2025-05-01"
+    ],
+    [
+      "May-Jun",
+      "2025-05-01",
+      "2025-07-01"
+    ],
+    [
+      "Jul-Aug",
+      "2025-07-01",
+      "2025-09-01"
+    ]
+  ],
+  "candidates": {
+    "no_quote_direct": [
+      "no_quote",
+      "direct"
+    ],
+    "no_quote_per_mile": [
+      "no_quote",
+      "per_mile"
+    ],
+    "no_quote_weighted_per_mile": [
+      "no_quote",
+      "weighted_per_mile"
+    ],
+    "core_direct": [
+      "core",
+      "direct"
+    ],
+    "core_per_mile": [
+      "core",
+      "per_mile"
+    ],
+    "core_weighted_per_mile": [
+      "core",
+      "weighted_per_mile"
+    ]
+  },
+  "ranking": "Equal-weight mean of three fold total-dollar MAEs; name breaks ties",
+  "geography": "Three fixed seeds (17, 29, 43), six cities each, chosen from Jan-Jun city names without targets; fit excludes all touching loads; evaluate Jul-Aug",
+  "artifact_policy": "Original selected models and submission predictions remain fixed; no holdout-based reselection or calibration",
+  "input_sha256": "892980fd20bac7ac0ca4ec31d3981fca48d52dec88e4f02642ab955f1efb40fe"
+}

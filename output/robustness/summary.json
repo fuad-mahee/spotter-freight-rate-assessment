@@ -1,0 +1,53 @@
+{
+  "development_leader": "no_quote_per_mile",
+  "ranking": [
+    {
+      "candidate": "no_quote_per_mile",
+      "mean_MAE": 128.03026320013646,
+      "worst_MAE": 140.55057748936076,
+      "mean_RMSE": 601.267419586219,
+      "mean_signed_error": -50.422048614442474
+    },
+    {
+      "candidate": "no_quote_weighted_per_mile",
+      "mean_MAE": 128.34312908545894,
+      "worst_MAE": 139.50789855707916,
+      "mean_RMSE": 601.2466446319626,
+      "mean_signed_error": -44.927781534137786
+    },
+    {
+      "candidate": "no_quote_direct",
+      "mean_MAE": 129.13058706476454,
+      "worst_MAE": 140.48140434183804,
+      "mean_RMSE": 601.3342497983945,
+      "mean_signed_error": -43.175579900529755
+    },
+    {
+      "candidate": "core_weighted_per_mile",
+      "mean_MAE": 141.93522003632654,
+      "worst_MAE": 163.74039661870435,
+      "mean_RMSE": 604.1013632292141,
+      "mean_signed_error": -42.937156673450325
+    },
+    {
+      "candidate": "core_per_mile",
+      "mean_MAE": 143.14072577164544,
+      "worst_MAE": 159.46525896079083,
+      "mean_RMSE": 605.0071258697603,
+      "mean_signed_error": -45.86118654141965
+    },
+    {
+      "candidate": "core_direct",
+      "mean_MAE": 143.47227438074717,
+      "worst_MAE": 163.00650816870342,
+      "mean_RMSE": 605.5422345497708,
+      "mean_signed_error": -43.36380230309184
+    }
+  ],
+  "geographic_mean_MAE": {
+    "no_quote_direct": 139.88162721431576,
+    "no_quote_per_mile": 145.92649755489688
+  },
+  "submission_changed": false,
+  "limitations": "Fold selection was designed after earlier results were known. City repetitions overlap and are not independent. This does not measure the actual unseen final cities or future December accuracy."
+}
