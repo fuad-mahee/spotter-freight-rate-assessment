@@ -4,6 +4,7 @@ CatBoost regression predicts total load rates for 12,000 November-December 2025 
 
 ## Results and artifacts
 
+- [Loom video walkthrough](https://www.loom.com/share/cdcfb8bd14db4147b02a5df01a0fbbe6)
 - [Assessment report with the required December chart](output/assessment_report.pdf)
 - [Final predictions: 12,000 loads](output/validation_predictions.csv)
 - [Completed December predictions](output/december_predictions.csv)
