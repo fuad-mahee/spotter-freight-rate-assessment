@@ -1,7 +1,10 @@
 """Build the submission PDF from computed results, without hand-entered metrics."""
 import json
+from io import BytesIO
 from pathlib import Path
 from xml.sax.saxutils import escape
+
+from PIL import Image as PILImage
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -16,15 +19,15 @@ def main():
     d = json.loads((out / 'diagnostics.json').read_text())
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='BodyCustom', fontName='Helvetica', fontSize=10,
-                              leading=14, spaceAfter=9, textColor=colors.HexColor('#22343B')))
+                              leading=14, spaceAfter=9, textColor=colors.black))
     styles.add(ParagraphStyle(name='Kicker', fontSize=9, leading=13,
-                              textColor=colors.HexColor('#117C89'), spaceAfter=10))
-    styles['Title'].textColor = colors.HexColor('#064A56')
+                              textColor=colors.black, spaceAfter=10))
+    styles['Title'].textColor = colors.black
     styles['Title'].alignment = TA_LEFT
     styles['Title'].fontSize = 26
     styles['Title'].leading = 31
-    styles['Heading1'].textColor = colors.HexColor('#064A56')
-    styles['Heading2'].textColor = colors.HexColor('#064A56')
+    styles['Heading1'].textColor = colors.black
+    styles['Heading2'].textColor = colors.black
     story = []
 
     def p(text, style='BodyCustom'):
@@ -34,12 +37,13 @@ def main():
         rows = [[Paragraph(escape(str(c)), styles['BodyCustom']) for c in row] for row in rows]
         t = Table(rows, colWidths=widths, repeatRows=1, hAlign='LEFT')
         t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#E2F0F1')),
-            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5F8F9')]),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.white),
             ('VALIGN', (0, 0), (-1, -1), 'TOP'),
             ('LEFTPADDING', (0, 0), (-1, -1), 8), ('RIGHTPADDING', (0, 0), (-1, -1), 8),
             ('TOPPADDING', (0, 0), (-1, -1), 6), ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
-            ('LINEBELOW', (0, 0), (-1, 0), .6, colors.HexColor('#A5C5CB'))]))
+            ('LINEABOVE', (0, 0), (-1, 0), .6, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), .6, colors.black),
+            ('LINEBELOW', (0, -1), (-1, -1), .4, colors.black)]))
         story.extend([t, Spacer(1, 12)])
 
     full = r['selected']['full']
@@ -202,9 +206,15 @@ def main():
 
     story.append(PageBreak())
     p('6. Fixed December prediction chart', 'Heading1')
-    p('The image below is the unmodified candidate_december.png created by the supplied score.py '
-      'from the completed December CSV. Only the date changes; all five other scenario inputs stay fixed.')
-    chart = Image(str(out / 'candidate_december.png'))
+    p('The image below is a monochrome rendering of candidate_december.png created by the supplied '
+      'score.py from the completed December CSV. Only the date changes; all five other scenario '
+      'inputs stay fixed.')
+    # Keep the supplied scorer output intact; embed a grayscale copy in the PDF.
+    chart_buffer = BytesIO()
+    with PILImage.open(out / 'candidate_december.png') as source_chart:
+        source_chart.convert('L').save(chart_buffer, format='PNG')
+    chart_buffer.seek(0)
+    chart = Image(chart_buffer)
     chart.drawHeight = 500 * chart.imageHeight / chart.imageWidth
     chart.drawWidth = 500
     story.append(chart)
@@ -219,14 +229,14 @@ def main():
       'isolation, invalid-weight behavior and saved-model prediction parity. Run diagnostics.py '
       'for residual/geographic diagnostics, then build_report.py for this report.')
     p('Repository: <link href="https://github.com/fuad-mahee/spotter-freight-rate-assessment" '
-      'color="#117C89">github.com/fuad-mahee/spotter-freight-rate-assessment</link>. '
+      'color="#000000">github.com/fuad-mahee/spotter-freight-rate-assessment</link>. '
       'The root README links the code, dependencies, saved models, predictions and run instructions.')
 
     def footer(canvas, doc):
-        canvas.setStrokeColor(colors.HexColor('#CCDDE0'))
+        canvas.setStrokeColor(colors.black)
         canvas.line(48, 43, 548, 43)
         canvas.setFont('Helvetica', 8)
-        canvas.setFillColor(colors.HexColor('#536A72'))
+        canvas.setFillColor(colors.black)
         canvas.drawString(48, 29, 'SPOTTER | Freight-rate assessment | Muftasim Fuad')
         canvas.drawRightString(548, 29, str(doc.page))
 
